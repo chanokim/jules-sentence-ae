@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysisEngineDescription xmlns="http://uima.watson.ibm.com/resourceSpecifier">
+<frameworkImplementation>com.ibm.uima.java</frameworkImplementation>
+<primitive>true</primitive>
+<annotatorImplementationName>de.julielab.jules.ae.SentenceAnnotator</annotatorImplementationName>
+<analysisEngineMetaData>
+<name>Sentence Annotator</name>
+<description></description>
+<version>1.1</version>
+<vendor>julielab</vendor>
+<configurationParameters>
+<configurationParameter>
+<name>ModelFilename</name>
+<description>Filename for the trained JSBD model</description>
+<type>String</type>
+<multiValued>false</multiValued>
+<mandatory>true</mandatory>
+</configurationParameter>
+<configurationParameter>
+<name>Postprocessing</name>
+<description>Indicates whether postprocessing should be run. Default: no postprocessing</description>
+<type>Boolean</type>
+<multiValued>false</multiValued>
+<mandatory>false</mandatory>
+</configurationParameter>
+</configurationParameters>
+<configurationParameterSettings>
+<nameValuePair>
+<name>ModelFilename</name>
+<value>
+	<string>src/test/resources/SentenceAnnotatorTest.mod</string>
+</value>
+</nameValuePair>
+<nameValuePair>
+<name>Postprocessing</name>
+<value>
+<boolean>true</boolean>
+</value>
+</nameValuePair>
+</configurationParameterSettings>
+<typeSystemDescription>
+<imports>
+<import location="JulieTypeSystem.xml"/>
+</imports>
+</typeSystemDescription>
+<capabilities>
+<capability>
+<inputs/>
+<outputs>
+<type allAnnotatorFeatures="true">de.julielab.jules.Sentence</type>
+</outputs>
+<languagesSupported/>
+</capability>
+</capabilities>
+<operationalProperties>
+<modifiesCas>true</modifiesCas>
+<multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+<outputsNewCASes>false</outputsNewCASes>
+</operationalProperties>
+</analysisEngineMetaData>
+</analysisEngineDescription>
