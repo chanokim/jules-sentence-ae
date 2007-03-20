@@ -17,6 +17,8 @@
 
 package de.julielab.jules.ae;
 
+import org.apache.log4j.Logger;
+
 import java.util.Iterator;
 
 import com.ibm.uima.UIMAFramework;
@@ -32,6 +34,10 @@ import de.julielab.jules.types.Sentence;
 import junit.framework.TestCase;
 
 public class SentenceAnnotatorTest extends TestCase {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(SentenceAnnotatorTest.class);
 
 	private String descriptor = "src/test/resources/SentenceAnnotatorTest.xml";
 
@@ -57,7 +63,7 @@ public class SentenceAnnotatorTest extends TestCase {
 			sentenceAnnotator = UIMAFramework
 					.produceAnalysisEngine(sentenceSpec);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("testProcess()", e); //$NON-NLS-1$
 		}
 
 		for (int i = 0; i < texts.length; i++) {
@@ -66,16 +72,18 @@ public class SentenceAnnotatorTest extends TestCase {
 			try {
 				jcas = sentenceAnnotator.newJCas();
 			} catch (ResourceInitializationException e) {
-				e.printStackTrace();
+				logger.error("testProcess()", e); //$NON-NLS-1$
 			}
 
-			System.out.println("\ntesting text: \n" + texts[i]);
+			if (logger.isDebugEnabled()) {
+				logger.debug("testProcess() - ntesting text: n" + texts[i]); //$NON-NLS-1$
+			}
 			jcas.setDocumentText(texts[i]);
 
 			try {
 				sentenceAnnotator.process(jcas, null);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("testProcess()", e); //$NON-NLS-1$
 			}
 
 			// get the offsets of the sentences
@@ -93,8 +101,12 @@ public class SentenceAnnotatorTest extends TestCase {
 				predictedOffsets += s.getBegin() + "-" + s.getEnd();
 			}
 
-			System.out.println("\npredicted: " + predictedOffsets);
-			System.out.println("wanted: " + offsets[i]);
+			if (logger.isDebugEnabled()) {
+				logger.debug("testProcess() - npredicted: " + predictedOffsets); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("testProcess() - wanted: " + offsets[i]); //$NON-NLS-1$
+			}
 
 			// compare offsets
 			if (!predictedOffsets.equals(offsets[i])) {
