@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 1.0 	
+ * Current version: 1.1.1 	
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -18,6 +18,7 @@
 package de.julielab.jules.ae;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.util.Iterator;
 
@@ -34,22 +35,31 @@ import de.julielab.jules.types.Sentence;
 import junit.framework.TestCase;
 
 public class SentenceAnnotatorTest extends TestCase {
+
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger.getLogger(SentenceAnnotatorTest.class);
-
+	private static final Logger LOGGER = Logger.getLogger(SentenceAnnotatorTest.class);
+	
 	private String descriptor = "src/test/resources/SentenceAnnotatorTest.xml";
 
 	private String[] texts = {
 			"First sentence. Second \t sentence! \n    Last sentence?",
-			"Hallo, jemand da? Nein, niemand.",
-			""};
+			"Hallo, jemand da? Nein, niemand.", "A test. METHODS: Bad stuff.",
+			"" };
 
-	private String[] offsets = { "0-15;16-34;40-54", "0-17;18-32","" };
+	private String[] offsets = { "0-15;16-34;40-54", "0-17;18-32",
+			"0-7;8-16;17-27", "" };
 
+	
+	protected void setUp() throws Exception {
+		super.setUp();
+		// set log4j properties file
+		PropertyConfigurator.configure("src/test/java/log4j.properties");
+	}
+	
 	public void testProcess() {
-
+	
 		boolean annotationsOK = true;
 
 		XMLInputSource sentenceXML = null;
@@ -63,7 +73,7 @@ public class SentenceAnnotatorTest extends TestCase {
 			sentenceAnnotator = UIMAFramework
 					.produceAnalysisEngine(sentenceSpec);
 		} catch (Exception e) {
-			logger.error("testProcess()", e); //$NON-NLS-1$
+			LOGGER.error("testProcess()", e); //$NON-NLS-1$
 		}
 
 		for (int i = 0; i < texts.length; i++) {
@@ -72,18 +82,18 @@ public class SentenceAnnotatorTest extends TestCase {
 			try {
 				jcas = sentenceAnnotator.newJCas();
 			} catch (ResourceInitializationException e) {
-				logger.error("testProcess()", e); //$NON-NLS-1$
+				LOGGER.error("testProcess()", e); //$NON-NLS-1$
 			}
 
-			if (logger.isDebugEnabled()) {
-				logger.debug("testProcess() - ntesting text: n" + texts[i]); //$NON-NLS-1$
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("testProcess() - testing text: " + texts[i]); //$NON-NLS-1$
 			}
 			jcas.setDocumentText(texts[i]);
 
 			try {
 				sentenceAnnotator.process(jcas, null);
 			} catch (Exception e) {
-				logger.error("testProcess()", e); //$NON-NLS-1$
+				LOGGER.error("testProcess()", e); //$NON-NLS-1$
 			}
 
 			// get the offsets of the sentences
@@ -95,17 +105,18 @@ public class SentenceAnnotatorTest extends TestCase {
 
 			while (sentIter.hasNext()) {
 				Sentence s = (Sentence) sentIter.next();
-				//System.out.println(s.getCoveredText() + ": " + s.getBegin()
-				//		+ " - " + s.getEnd());
+				// System.out.println("sentence: " + s.getCoveredText() + ": " +
+				// s.getBegin()
+				// + " - " + s.getEnd());
 				predictedOffsets += (predictedOffsets.length() > 0) ? ";" : "";
 				predictedOffsets += s.getBegin() + "-" + s.getEnd();
 			}
 
-			if (logger.isDebugEnabled()) {
-				logger.debug("testProcess() - npredicted: " + predictedOffsets); //$NON-NLS-1$
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("testProcess() - predicted: " + predictedOffsets); //$NON-NLS-1$
 			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("testProcess() - wanted: " + offsets[i]); //$NON-NLS-1$
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("testProcess() - wanted: " + offsets[i]); //$NON-NLS-1$
 			}
 
 			// compare offsets
