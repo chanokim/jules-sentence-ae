@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<analysisEngineDescription xmlns="http://uima.watson.ibm.com/resourceSpecifier">
-<frameworkImplementation>com.ibm.uima.java</frameworkImplementation>
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+<frameworkImplementation>org.apache.uima.java</frameworkImplementation>
 <primitive>true</primitive>
 <annotatorImplementationName>de.julielab.jules.ae.SentenceAnnotator</annotatorImplementationName>
 <analysisEngineMetaData>
 <name>Sentence Annotator</name>
-<description>This is the UIMA Wrapper for the JULIE Sentence Boundary Detector. </description>
-<version>1.1.1</version>
+<description>This is the UIMA Wrapper for the JULIE Sentence Boundary Detector.</description>
+<version>1.2</version>
 <vendor>julielab</vendor>
 <configurationParameters>
 <configurationParameter>
@@ -28,7 +28,7 @@
 <nameValuePair>
 <name>ModelFilename</name>
 <value>
-	<string>src/test/resources/SentenceAnnotatorTest.mod</string>
+<string>src/test/resources/SentenceAnnotatorTest.mod</string>
 </value>
 </nameValuePair>
 <nameValuePair>
