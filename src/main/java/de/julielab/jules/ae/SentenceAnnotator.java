@@ -38,11 +38,11 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger
-			.getLogger(SentenceAnnotator.class);
+	private static final Logger LOGGER = Logger.getLogger(SentenceAnnotator.class);
 
 	private static final String COMPONENT_ID = "JULIE Sentence Boundary Detector";
 	
+	//TODO add comment
 	private boolean doPostprocessing = false;
 
 	private SentenceSplitter sentenceSplitter;
@@ -61,8 +61,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		super.initialize(aContext);
 
 		// get parameters
-		String modelFilename = (String) aContext
-				.getConfigParameterValue("ModelFilename");
+		String modelFilename = (String) aContext.getConfigParameterValue("ModelFilename");
 
 		// this parameter is not mandatory, so first check whether it is there
 		Boolean pp = (Boolean) aContext
@@ -83,6 +82,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		}
 	}
 
+	//TODO add comment
 	public void process(JCas aJCas) {
 
 		LOGGER.info("[JSBD] processing document...");

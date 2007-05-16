@@ -34,6 +34,7 @@ import de.julielab.jules.types.Sentence;
 
 import junit.framework.TestCase;
 
+//TODO sind die Descriptoren auf neustem Stand?
 public class SentenceAnnotatorTest extends TestCase {
 
 	/**
@@ -62,9 +63,8 @@ public class SentenceAnnotatorTest extends TestCase {
 	
 	
 	/**
-	 * this test does: use the model in resources, split the text in TEST_TEXT 
+	 * Use the model in resources, split the text in TEST_TEXT 
 	 * and compare the split result against TEST_TEXT_OFFSETS
-	 *
 	 */
 	public void testProcess() {
 	
@@ -111,6 +111,7 @@ public class SentenceAnnotatorTest extends TestCase {
 
 			String predictedOffsets = "";
 
+			//TODO extract method (alt+shift+m)
 			while (sentIter.hasNext()) {
 				Sentence s = (Sentence) sentIter.next();
 				LOGGER.debug("sentence: " + s.getCoveredText() + ": " + s.getBegin() + " - " + s.getEnd());
