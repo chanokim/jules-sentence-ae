@@ -1,7 +1,7 @@
 /** 
  * SentenceAnnotator.java
  * 
- * Copyright (c) 2006, JULIE Lab. 
+ * Copyright (c) 2007, JULIE Lab. 
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Common Public License v1.0 
  *
@@ -12,8 +12,9 @@
  *
  * Creation date: Nov 29, 2006 
  * 
- * This is a wrapper to the JULIE Sentence Boundary Detector. It splits a text into single sentences
- * and adds annotations of type Sentence to the respective (J)Cas.
+ * This is a wrapper to the JULIE Sentence Boundary Detector (JSBD). 
+ * It splits a text into single sentences and adds annotations of 
+ * the type Sentence to the respective UIMA (J)Cas.
  **/
 
 package de.julielab.jules.ae;
@@ -37,14 +38,15 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger
+	private static final Logger LOGGER = Logger
 			.getLogger(SentenceAnnotator.class);
 
+	private static final String COMPONENT_ID = "JULIE Sentence Boundary Detector";
+	
 	private boolean doPostprocessing = false;
 
 	private SentenceSplitter sentenceSplitter;
 
-	
 	/**
 	 * initiaziation of JSBD: load the model, set post processing
 	 * 
@@ -53,7 +55,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	public void initialize(UimaContext aContext)
 			throws ResourceInitializationException {
 
-		logger.info("[JSBD] initializing...");
+		LOGGER.info("[JSBD] initializing...");
 
 		// invoke default initialization
 		super.initialize(aContext);
@@ -75,17 +77,15 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		try {
 			sentenceSplitter.readModel(modelFilename);
 		} catch (Exception e) {
-			logger.error("[JSBD] Could not load sentence splitter model: "
+			LOGGER.error("[JSBD] Could not load sentence splitter model: "
 					+ e.getMessage());
 			throw new ResourceInitializationException();
 		}
 	}
 
-	
-	
 	public void process(JCas aJCas) {
 
-		logger.info("[JSBD] processing document...");
+		LOGGER.info("[JSBD] processing document...");
 
 		// get the text from the cas
 		ArrayList<String> lines = new ArrayList<String>();
@@ -96,7 +96,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		try {
 			units = sentenceSplitter.predict(lines, doPostprocessing);
 		} catch (JSBDException e) {
-			logger.error("[JSBD] " + e.getMessage());
+			LOGGER.error("[JSBD] " + e.getMessage());
 			throw new RuntimeException();
 		}
 
@@ -104,8 +104,6 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		addAnnotations(aJCas, units);
 	}
 
-	
-	
 	/**
 	 * Add all the sentences to CAS. Sentence is split into single units, for
 	 * each such unit we decide whether this unit is at the end of a sentence.
@@ -130,7 +128,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 				Sentence annotation = new Sentence(aJCas);
 				annotation.setBegin(start);
 				annotation.setEnd(myUnit.end);
-				annotation.setComponentId("JULIE Sentence Boundary Detector");
+				annotation.setComponentId(COMPONENT_ID);
 				annotation.addToIndexes();
 				start = -1;
 			}

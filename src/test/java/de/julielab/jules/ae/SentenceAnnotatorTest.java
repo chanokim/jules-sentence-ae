@@ -41,23 +41,31 @@ public class SentenceAnnotatorTest extends TestCase {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(SentenceAnnotatorTest.class);
 	
-	private String descriptor = "src/test/resources/SentenceAnnotatorTest.xml";
+	private static final String LOGGER_PROPERTIES = "src/test/java/log4j.properties";
+	
+	private static final String DESCRIPTOR = "src/test/resources/SentenceAnnotatorTest.xml";
 
-	private String[] texts = {
+	private static final String[] TEST_TEXT = {
 			"First sentence. Second \t sentence! \n    Last sentence?",
 			"Hallo, jemand da? Nein, niemand.", "A test. METHODS: Bad stuff.",
 			"" };
 
-	private String[] offsets = { "0-15;16-34;40-54", "0-17;18-32",
+	private static final String[] TEST_TEXT_OFFSETS = { "0-15;16-34;40-54", "0-17;18-32",
 			"0-7;8-16;17-27", "" };
 
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		// set log4j properties file
-		PropertyConfigurator.configure("src/test/java/log4j.properties");
+		PropertyConfigurator.configure(LOGGER_PROPERTIES);
 	}
 	
+	
+	/**
+	 * this test does: use the model in resources, split the text in TEST_TEXT 
+	 * and compare the split result against TEST_TEXT_OFFSETS
+	 *
+	 */
 	public void testProcess() {
 	
 		boolean annotationsOK = true;
@@ -67,33 +75,33 @@ public class SentenceAnnotatorTest extends TestCase {
 		AnalysisEngine sentenceAnnotator = null;
 
 		try {
-			sentenceXML = new XMLInputSource(descriptor);
+			sentenceXML = new XMLInputSource(DESCRIPTOR);
 			sentenceSpec = UIMAFramework.getXMLParser().parseResourceSpecifier(
 					sentenceXML);
 			sentenceAnnotator = UIMAFramework
 					.produceAnalysisEngine(sentenceSpec);
 		} catch (Exception e) {
-			LOGGER.error("testProcess()", e); //$NON-NLS-1$
+			LOGGER.error("testProcess()", e); 
 		}
 
-		for (int i = 0; i < texts.length; i++) {
+		for (int i = 0; i < TEST_TEXT.length; i++) {
 
 			JCas jcas = null;
 			try {
 				jcas = sentenceAnnotator.newJCas();
 			} catch (ResourceInitializationException e) {
-				LOGGER.error("testProcess()", e); //$NON-NLS-1$
+				LOGGER.error("testProcess()", e); 
 			}
 
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("testProcess() - testing text: " + texts[i]); //$NON-NLS-1$
+				LOGGER.debug("testProcess() - testing text: " + TEST_TEXT[i]); 
 			}
-			jcas.setDocumentText(texts[i]);
+			jcas.setDocumentText(TEST_TEXT[i]);
 
 			try {
 				sentenceAnnotator.process(jcas, null);
 			} catch (Exception e) {
-				LOGGER.error("testProcess()", e); //$NON-NLS-1$
+				LOGGER.error("testProcess()", e); 
 			}
 
 			// get the offsets of the sentences
@@ -105,29 +113,26 @@ public class SentenceAnnotatorTest extends TestCase {
 
 			while (sentIter.hasNext()) {
 				Sentence s = (Sentence) sentIter.next();
-				// System.out.println("sentence: " + s.getCoveredText() + ": " +
-				// s.getBegin()
-				// + " - " + s.getEnd());
+				LOGGER.debug("sentence: " + s.getCoveredText() + ": " + s.getBegin() + " - " + s.getEnd());
 				predictedOffsets += (predictedOffsets.length() > 0) ? ";" : "";
 				predictedOffsets += s.getBegin() + "-" + s.getEnd();
 			}
 
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("testProcess() - predicted: " + predictedOffsets); //$NON-NLS-1$
+				LOGGER.debug("testProcess() - predicted: " + predictedOffsets); 
 			}
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("testProcess() - wanted: " + offsets[i]); //$NON-NLS-1$
+				LOGGER.debug("testProcess() - wanted: " + TEST_TEXT_OFFSETS[i]); 
 			}
 
 			// compare offsets
-			if (!predictedOffsets.equals(offsets[i])) {
+			if (!predictedOffsets.equals(TEST_TEXT_OFFSETS[i])) {
 				annotationsOK = false;
 				continue;
 			}
 		}
-
 		assertTrue(annotationsOK);
-
 	}
 
+	
 }
