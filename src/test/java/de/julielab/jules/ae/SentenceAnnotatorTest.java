@@ -61,7 +61,6 @@ public class SentenceAnnotatorTest extends TestCase {
 		PropertyConfigurator.configure(LOGGER_PROPERTIES);
 	}
 	
-	
 	/**
 	 * Use the model in resources, split the text in TEST_TEXT 
 	 * and compare the split result against TEST_TEXT_OFFSETS
