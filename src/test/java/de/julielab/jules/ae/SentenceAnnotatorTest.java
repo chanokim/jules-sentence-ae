@@ -107,10 +107,7 @@ public class SentenceAnnotatorTest extends TestCase {
 			Iterator sentIter = indexes.getAnnotationIndex(Sentence.type)
 					.iterator();
 
-			String predictedOffsets = "";
-
-			//get predicted offsets of sentence boundaries
-			predictedOffsets = getPredictedOffsets(i, sentIter, predictedOffsets);
+			String predictedOffsets = getPredictedOffsets(i, sentIter);
 
 			// compare offsets
 			if (!predictedOffsets.equals(TEST_TEXT_OFFSETS[i])) {
@@ -122,7 +119,8 @@ public class SentenceAnnotatorTest extends TestCase {
 	}
 
 
-	private String getPredictedOffsets(int i, Iterator sentIter, String predictedOffsets) {
+	private String getPredictedOffsets(int i, Iterator sentIter) {
+		String predictedOffsets="";
 		while (sentIter.hasNext()) {
 			Sentence s = (Sentence) sentIter.next();
 			LOGGER.debug("sentence: " + s.getCoveredText() + ": " + s.getBegin() + " - " + s.getEnd());
