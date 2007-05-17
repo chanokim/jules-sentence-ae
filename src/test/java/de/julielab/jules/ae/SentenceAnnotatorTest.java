@@ -34,7 +34,6 @@ import de.julielab.jules.types.Sentence;
 
 import junit.framework.TestCase;
 
-//TODO sind die Descriptoren auf neustem Stand?
 public class SentenceAnnotatorTest extends TestCase {
 
 	/**
@@ -110,20 +109,8 @@ public class SentenceAnnotatorTest extends TestCase {
 
 			String predictedOffsets = "";
 
-			//TODO extract method (alt+shift+m)
-			while (sentIter.hasNext()) {
-				Sentence s = (Sentence) sentIter.next();
-				LOGGER.debug("sentence: " + s.getCoveredText() + ": " + s.getBegin() + " - " + s.getEnd());
-				predictedOffsets += (predictedOffsets.length() > 0) ? ";" : "";
-				predictedOffsets += s.getBegin() + "-" + s.getEnd();
-			}
-
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("testProcess() - predicted: " + predictedOffsets); 
-			}
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("testProcess() - wanted: " + TEST_TEXT_OFFSETS[i]); 
-			}
+			//get predicted offsets of sentence boundaries
+			predictedOffsets = getPredictedOffsets(i, sentIter, predictedOffsets);
 
 			// compare offsets
 			if (!predictedOffsets.equals(TEST_TEXT_OFFSETS[i])) {
@@ -132,6 +119,24 @@ public class SentenceAnnotatorTest extends TestCase {
 			}
 		}
 		assertTrue(annotationsOK);
+	}
+
+
+	private String getPredictedOffsets(int i, Iterator sentIter, String predictedOffsets) {
+		while (sentIter.hasNext()) {
+			Sentence s = (Sentence) sentIter.next();
+			LOGGER.debug("sentence: " + s.getCoveredText() + ": " + s.getBegin() + " - " + s.getEnd());
+			predictedOffsets += (predictedOffsets.length() > 0) ? ";" : "";
+			predictedOffsets += s.getBegin() + "-" + s.getEnd();
+		}
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("testProcess() - predicted: " + predictedOffsets); 
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("testProcess() - wanted: " + TEST_TEXT_OFFSETS[i]); 
+		}
+		return predictedOffsets;
 	}
 
 	
