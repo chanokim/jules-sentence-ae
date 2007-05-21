@@ -6,7 +6,7 @@
 <analysisEngineMetaData>
 <name>Sentence Annotator</name>
 <description>This is the UIMA Wrapper for the JULIE Sentence Boundary Detector.</description>
-<version>1.2</version>
+<version>1.3</version>
 <vendor>julielab</vendor>
 <configurationParameters>
 <configurationParameter>
@@ -28,7 +28,7 @@
 <nameValuePair>
 <name>ModelFilename</name>
 <value>
-<string>src/test/resources/SentenceAnnotatorTest.mod</string>
+<string>src/test/resources/SentenceAnnotatorTest.mod.gz</string>
 </value>
 </nameValuePair>
 <nameValuePair>
