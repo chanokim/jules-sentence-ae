@@ -6,14 +6,14 @@
 \usepackage{ucs} 
 \pagestyle{plain}
 
-\title{\small{Documentation for}\\\huge UIMA wrapper for JULIE Sentence Boundary Detector
+\title{\small{Documentation for}\\\huge UIMA Wrapper for JULIE Sentence Boundary Detector
   (UIMA-JSBD-1.3)}
 
 \author{\normalsize Katrin Tomanek\\
   \normalsize  Jena University Language \& Information Engineering (JULIE) Lab\\
   \normalsize F\"urstengraben 30 \\
   \normalsize D-07743 Jena, Germany\\
-  {\normalsize \tt \{tomanek\}@coling-uni-jena.de} }
+  {\normalsize \tt tomanek@coling-uni-jena.de} }
 
 
 \date{}
@@ -203,9 +203,21 @@ On this page, go to \emph{Imported Type} and add the \emph{JULIE UIMA
 
 
 \paragraph{Capabilities}
+\label{sss:capabilities}
+The sentence splitter only returns annotations from type \url{de.julielab.jules.types.Sentence}. See Table \ref{tab:capabilities}.
 % adapt if needed
-Nothing needs to be done here.
-
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|p{5cm}|p{2cm}|p{2cm}|}
+    \hline
+    Type & Input & Output \\
+    \hline\hline
+     de.julielab.jules.types.Sentence & &  $\surd$  \\
+      \hline
+  \end{tabular}
+  \caption{Capabilities of this AE.}
+  \label{tab:capabilities}
+\end{table} 
 
 \paragraph{Index}
 % adapt if needed
