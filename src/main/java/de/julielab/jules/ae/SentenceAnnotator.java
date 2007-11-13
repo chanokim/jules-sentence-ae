@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 1.3	
+ * Current version: 1.3.3	
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -40,8 +40,6 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	 */
 	private static final Logger LOGGER = Logger
 			.getLogger(SentenceAnnotator.class);
-
-	private static final String COMPONENT_ID = "JULIE Sentence Boundary Detector";
 
 	// activate post processing
 	private boolean doPostprocessing = false;
@@ -132,7 +130,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 				Sentence annotation = new Sentence(aJCas);
 				annotation.setBegin(start);
 				annotation.setEnd(myUnit.end);
-				annotation.setComponentId(COMPONENT_ID);
+				annotation.setComponentId(this.getClass().getName());
 				annotation.addToIndexes();
 				start = -1;
 			}
