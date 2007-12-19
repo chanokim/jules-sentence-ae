@@ -90,20 +90,25 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 		LOGGER.info("[JSBD] processing document...");
 
 		// get the text from the cas
-		ArrayList<String> lines = new ArrayList<String>();
-		lines.add(aJCas.getDocumentText());
+		if (aJCas.getDocumentText() != null) {
+			ArrayList<String> lines = new ArrayList<String>();
+			lines.add(aJCas.getDocumentText());
 
-		// make prediction
-		ArrayList<Unit> units;
-		try {
-			units = sentenceSplitter.predict(lines, doPostprocessing);
-		} catch (JSBDException e) {
-			LOGGER.error("[JSBD] " + e.getMessage());
-			throw new RuntimeException();
+			// make prediction
+			ArrayList<Unit> units;
+			try {
+
+				units = sentenceSplitter.predict(lines, doPostprocessing);
+			} catch (JSBDException e) {
+				LOGGER.error("[JSBD] " + e.getMessage());
+				throw new RuntimeException();
+			}
+
+			// add to UIMA annotations
+			addAnnotations(aJCas, units);
+		} else {
+			LOGGER.warn("process() - document text empty. Skipping this document!");
 		}
-
-		// add to UIMA annotations
-		addAnnotations(aJCas, units);
 	}
 
 	/**

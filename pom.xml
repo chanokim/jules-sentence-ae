@@ -7,7 +7,7 @@
   <groupId>de.julielab</groupId>
   <artifactId>jules-sentence-ae</artifactId>
   <packaging>jar</packaging>
-  <version>1.4</version>
+  <version>1.4.1</version>
   <name>JULES Sentence Annotator</name>
   <description>UIMA Wrapper for JULIE Sentence Boundary Detector</description>
 
