@@ -7,7 +7,7 @@
 \pagestyle{plain}
 
 \title{\small{Documentation for}\\\huge UIMA Wrapper for JULIE Sentence Boundary Detector
-  (UIMA-JSBD-1.3)}
+  (UIMA-JSBD-2.0)}
 
 \author{\normalsize Katrin Tomanek\\
   \normalsize  Jena University Language \& Information Engineering (JULIE) Lab\\
@@ -29,7 +29,7 @@ contains several NLP components (all UIMA compliant) from sentence
 splitting to named entity recognition and normalization as well as a
 comprehensive UIMA type system.
 
-UIMA-JSBD is currently available in version 1.3. UIMA-JSBD is an UIMA
+UIMA-JSBD is currently available in version 2.0 UIMA-JSBD is an UIMA
 wrapper for JSBD, the respective command-line version. For more
 detailed information on the functioning of JSBD check the JSBD
 documentation or refer to \cite{Tomanek2007a}.
@@ -63,17 +63,16 @@ the model trained on this data in the directory \url{resources}.
 
 % mostly our tools will be based on java 1.5 and use UIMA
 UIMA-JSBD is written in Java 1.5 using Apache UIMA version
-2.1.0-incubation\footnote{\url{http://incubator.apache.org/uima/}}. It
-was not tested with other UIMA versions.
+2.2.0-incubation\footnote{\url{http://incubator.apache.org/uima/}}.
 
 % ref to our type system
 The input and output of an AE takes place by annotation objects. The
 classes corresponding to these objects are part of a \emph{JULIE UIMA
-  Type System}\footnote{The \emph{JULIE UIMA type system} can be
-  obtained from \url{http://www.julielab.de/}}.
+  Type System} in its current version 2.0.\footnote{The \emph{JULIE UIMA type system} can be
+  obtained separately from \url{http://www.julielab.de/}. However, the type system is already contained in this PEAR package.}
 
-UIMA-JSBD-1.3 is based on JSBD-1.6 which employs the machine learning
-toolkit MALLET \cite{mallet}.
+UIMA-JSBD-2.0 is based on JSBD-1.6 which employs the machine learning
+toolkit MALLET \cite{McCallum2002}.
 
 
 
@@ -129,7 +128,7 @@ UIMA-JSBD you need to provide the information as specified in Table
     \hline
     Overall Identification Information & Name &  Sentence Annotator \\
     \cline{2-3}
-    & Version &  1.3 \\
+    & Version &  2.0 \\
     \cline{2-3}
     & Vendor & JULIE Lab\\
     \cline{2-3}
@@ -239,7 +238,7 @@ The license is approved by the Open Source Initiative, and is
 available from their website at \url{http://www.opensource.org}.
 
 \bibliographystyle{alpha}
-\bibliography{/home/tomanek/coling/biblio/literature.bib}
+\bibliography{literature}
 
 
 \end{document}
