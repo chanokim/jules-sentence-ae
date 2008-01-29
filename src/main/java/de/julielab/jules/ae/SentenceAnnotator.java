@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 1.4	
+ * Current version: 2.0	
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -131,7 +131,9 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 				start = myUnit.begin;
 			}
 
-			if (decision.equals("EOS")) { // end-of-sentence predicted (EOS)
+			if (decision.equals("EOS") || (i==units.size()-1)) { 
+				// end-of-sentence predicted (EOS)
+				// or last unit reached (finish a last sentence here!)
 				Sentence annotation = new Sentence(aJCas);
 				annotation.setBegin(start);
 				annotation.setEnd(myUnit.end);

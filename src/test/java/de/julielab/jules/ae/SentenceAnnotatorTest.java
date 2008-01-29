@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 1.4	
+ * Current version: 2.0
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -45,14 +45,14 @@ public class SentenceAnnotatorTest extends TestCase {
 	
 	private static final String DESCRIPTOR = "src/test/resources/SentenceAnnotatorTest.xml";
 
+	// last sentence has no EOS symbol to test that also this is handled correctly
 	private static final String[] TEST_TEXT = {
 			"First sentence. Second \t sentence! \n    Last sentence?",
-			"Hallo, jemand da? Nein, niemand.", "A test. METHODS: Bad stuff.",
+			"Hallo, jemand da? Nein, niemand.", "A test. METHODS: Bad stuffi",
 			"" };
 
 	private static final String[] TEST_TEXT_OFFSETS = { "0-15;16-34;40-54", "0-17;18-32",
 			"0-7;8-16;17-27", "" };
-
 	
 	protected void setUp() throws Exception {
 		super.setUp();

@@ -7,7 +7,7 @@
   <groupId>de.julielab</groupId>
   <artifactId>jules-sentence-ae</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.1</version>
+  <version>2.0</version>
   <name>JULES Sentence Annotator</name>
   <description>UIMA Wrapper for JULIE Sentence Boundary Detector</description>
 
@@ -23,11 +23,7 @@
       	    <artifactId>jsbd</artifactId>
       	    <version>1.6</version>
     </dependency>
-    <dependency>
-	    <groupId>de.julielab</groupId>
-	    <artifactId>jules-types</artifactId>
-	    <version>1.7</version>
-    </dependency>
+
     <dependency>
 	    <groupId>log4j</groupId>
 	    <artifactId>log4j</artifactId>
