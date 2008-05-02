@@ -44,6 +44,12 @@
           <boolean>true</boolean>
         </value>
       </nameValuePair>
+      <nameValuePair>
+        <name>ProcessingScope</name>
+        <value>
+          <string>de.julielab.jules.types.TestScope</string>
+        </value>
+      </nameValuePair>
     </configurationParameterSettings>
     <typeSystemDescription>
       <imports>

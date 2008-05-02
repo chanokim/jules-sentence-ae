@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 2.0
+ * Current version: 2.2
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -31,6 +31,7 @@ import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.XMLInputSource;
 
 import de.julielab.jules.types.Sentence;
+import de.julielab.jules.types.TestScope;
 
 import junit.framework.TestCase;
 
@@ -43,7 +44,9 @@ public class SentenceAnnotatorTest extends TestCase {
 	
 	private static final String LOGGER_PROPERTIES = "src/test/java/log4j.properties";
 	
-	private static final String DESCRIPTOR = "src/test/resources/SentenceAnnotatorTest.xml";
+	// uncomment to test with/without scope
+	//private static final String DESCRIPTOR = "src/test/resources/SentenceAnnotatorTest.xml";
+	private static final String DESCRIPTOR = "src/test/resources/SentenceAnnotator_with-scope_Test.xml";
 
 	// last sentence has no EOS symbol to test that also this is handled correctly
 	private static final String[] TEST_TEXT = {
@@ -53,6 +56,8 @@ public class SentenceAnnotatorTest extends TestCase {
 
 	private static final String[] TEST_TEXT_OFFSETS = { "0-15;16-34;40-54", "0-17;18-32",
 			"0-7;8-16;17-27", "" };
+	
+	private static final int[] endOffsets = {54,32,27,0};
 	
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -96,6 +101,12 @@ public class SentenceAnnotatorTest extends TestCase {
 			}
 			jcas.setDocumentText(TEST_TEXT[i]);
 
+			// make one test scope ranging over complete document text annotations for the processing scope
+			TestScope scope1 = new TestScope(jcas,0,endOffsets[i]);
+			scope1.addToIndexes();
+			//TestScope scope2 = new TestScope(jcas,37,54);
+
+			
 			try {
 				sentenceAnnotator.process(jcas, null);
 			} catch (Exception e) {
