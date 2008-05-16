@@ -6,14 +6,14 @@
 \usepackage{ucs} 
 \pagestyle{plain}
 
-\title{\small{Documentation for}\\\huge UIMA Wrapper for JULIE Sentence Boundary Detector
-  (UIMA-JSBD-2.0)}
+\title{\small{Documentation for}\\\huge JULIE Lab Sentence Boundary Detector\\\vspace{3mm}\small{Version 2.2}}
+
 
 \author{\normalsize Katrin Tomanek\\
   \normalsize  Jena University Language \& Information Engineering (JULIE) Lab\\
   \normalsize F\"urstengraben 30 \\
   \normalsize D-07743 Jena, Germany\\
-  {\normalsize \tt tomanek@coling-uni-jena.de} }
+  {\normalsize \tt katrin.tomanek@uni-jena.de} }
 
 
 \date{}
@@ -23,16 +23,16 @@
 
 \section{Objective}
 
-UIMA-JSBD is a sentence boundary detector for UIMA.  It is part of
-the JULIE NLP tool suite\footnote{\url{http://www.julielab.de/}} which
-contains several NLP components (all UIMA compliant) from sentence
-splitting to named entity recognition and normalization as well as a
-comprehensive UIMA type system.
+The JULIE Lab Sentence Boundary Detector (UIMA-JSBD) is a sentence
+boundary detector for UIMA.  It is part of the JULIE Lab NLP tool
+suite\footnote{\url{http://www.julielab.de/}} which contains several
+UIMA-compliant NLP components from sentence splitting to named entity
+recognition and normalization as well as a comprehensive UIMA type
+system.
 
-UIMA-JSBD is currently available in version 2.0 UIMA-JSBD is an UIMA
-wrapper for JSBD, the respective command-line version. For more
-detailed information on the functioning of JSBD check the JSBD
-documentation or refer to \cite{Tomanek2007a}.
+UIMA-JSBD is is an UIMA wrapper for JSBD, the respective command-line
+version. For more detailed information on the functioning of JSBD
+check the JSBD documentation or refer to \cite{Tomanek2007a}.
 
 \section{Installation}
 
@@ -62,17 +62,20 @@ the model trained on this data in the directory \url{resources}.
 \section{Requirements and Dependencies}
 
 % mostly our tools will be based on java 1.5 and use UIMA
-UIMA-JSBD is written in Java 1.5 using Apache UIMA version
-2.2.0-incubation\footnote{\url{http://incubator.apache.org/uima/}}.
+UIMA-JSBD is written in Java (version 1.5 or above required) using
+Apache UIMA version
+2.2.1-incubation\footnote{\url{http://incubator.apache.org/uima/}}.
 
 % ref to our type system
 The input and output of an AE takes place by annotation objects. The
-classes corresponding to these objects are part of a \emph{JULIE UIMA
-  Type System} in its current version 2.0.\footnote{The \emph{JULIE UIMA type system} can be
-  obtained separately from \url{http://www.julielab.de/}. However, the type system is already contained in this PEAR package.}
+classes corresponding to these objects are part of the \emph{JULIE Lab
+  UIMA Type System} in its current version (2.1).\footnote{The
+  \emph{JULIE Lab UIMA type system} can be separately obtained from
+  \url{http://www.julielab.de/}, however, this package already
+  includes the necessary parts of the type system.}
 
-UIMA-JSBD-2.0 is based on JSBD-1.6 which employs the machine learning
-toolkit MALLET \cite{McCallum2002}.
+This version of UIMA-JSBD is based on JSBD-1.6 which employs the
+machine learning toolkit MALLET \cite{McCallum2002}.
 
 
 
@@ -82,7 +85,7 @@ toolkit MALLET \cite{McCallum2002}.
 
 In UIMA, each component is configured by a descriptor in XML. In the
 following we describe how the descriptor required by this AE can be
-created with \emph{Component Descriptor Editor}, an Eclipse plugin
+created with the \emph{Component Descriptor Editor}, an Eclipse plugin
 which is part of the UIMA SDK.
 
 A descriptor contains information on different aspects. The following
@@ -91,7 +94,7 @@ the Component Descriptor Editor, a separate \emph{tabbed page}. For an
 indepth description of the respective configuration aspects or tabs,
 please refer to the \emph{UIMA SKD User's
   Guide}\footnote{\url{http://incubator.apache.org/uima/}}, especially
-chapter 12 on ``Component Descriptor Editor User's Guide''.
+the chapter on ``Component Descriptor Editor User's Guide''.
 
 To define your own descriptor go through each tabbed pages mentioned
 here, make your respective entries (especially in page \emph{Parameter
@@ -103,7 +106,7 @@ in the pear package you downloaded (in your installation directory, see
 \url{desc/SentenceAnnotator.xml}).
 
 \paragraph{Overview}
-This tab provides general informtion about the component. For the
+This tab provides general informtion about the component. For 
 UIMA-JSBD you need to provide the information as specified in Table
 \ref{tab:overview}.
 % adapt to your needs, remember to change values in tabular below!
@@ -128,7 +131,7 @@ UIMA-JSBD you need to provide the information as specified in Table
     \hline
     Overall Identification Information & Name &  Sentence Annotator \\
     \cline{2-3}
-    & Version &  2.0 \\
+    & Version &  2.2 \\
     \cline{2-3}
     & Vendor & JULIE Lab\\
     \cline{2-3}
@@ -163,6 +166,8 @@ Groups'' in this tab.
     \hline
     Postprocessing & Boolean & no & no & Indicates whether postprocessing should be run. Default: no postprocessing\\
     \hline
+    ProcessingScope & String & no & no & The UIMA annotation type  over which to iterate for doing the sentence segmentation. If nothing is given, the document text from the CAS is taken as scope! This is recommended as default!\\
+    \hline
   \end{tabular}
   \caption{Parameters of this AE.}
   \label{tab:parameters}
@@ -185,9 +190,11 @@ parameter settings of this AE.
     \hline
     Parameter Name & Parameter Syntax & Example \\
     \hline\hline
-    ModelFilename & full path & \url{/home/tomanek/JULIE_sentence.mod}\\
+    ModelFilename & full path & \url{resources/JULIE_life-science-1.6.mod.gz}\\
     \hline
-    Postprocessing & true/false &\\
+    Postprocessing & true/false & true\\
+    \hline 
+    ProcessingScope & full class name to annotation type & \url{de.julielab.jules.paragraph} (assuming you downloaded the document structure part of the JULIE Lab Type System). If you don't know what to do here, leave it blank!\\
     % add settings for parameters defined above
   \hline
   \end{tabular}
@@ -197,8 +204,12 @@ parameter settings of this AE.
 
 \paragraph{Type System}
 \label{sss:type_system}
-On this page, go to \emph{Imported Type} and add the \emph{JULIE UIMA
-  Type System}. (Use ``Import by Location'').
+On this page, go to \emph{Imported Type} and add the following layers
+of the \emph{JULIE UIMA Type System} (Use ``Import by Location''):
+\url{julie-basic-types.xml} and
+\url{julie-morpho-syntax-types.xml}. If you use the
+\textit{ProcessingScope} parameter make sure that the respective
+type/type system is also included.
 
 
 \paragraph{Capabilities}
@@ -229,7 +240,7 @@ Nothing needs to be done here.
 
 \section{Copyright and License}
 % leave unchanged
-This software is Copyright (C) 2007 Jena University Language \& Information
+This software is Copyright (C) 2008 Jena University Language \& Information
 Engineering Lab (Friedrich-Schiller University Jena, Germany), and is
 licensed under the terms of the Common Public License, Version 1.0 or (at
 your option) any subsequent version.
