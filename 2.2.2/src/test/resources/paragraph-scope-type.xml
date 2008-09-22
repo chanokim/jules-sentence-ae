@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>test-entity-type.xml</name>
+  <description>A mini type system with one type only, used for testing consistency preservation</description>
+  <version>2.1</version>
+  <vendor/>
+  <imports>
+    <import location="../../main/resources/julie-basic-types.xml"/>
+  </imports>
+  <types>
+    <typeDescription>
+      <name>de.julielab.jules.types.TestScope</name>
+      <description>A test scope</description>
+      <supertypeName>de.julielab.jules.types.Annotation</supertypeName>
+    </typeDescription>
+  </types>
+</typeSystemDescription>
