@@ -7,7 +7,7 @@
  *
  * Author: tomanek
  * 
- * Current version: 2.2
+ * Current version: 2.3
  * Since version:   1.0
  *
  * Creation date: Nov 29, 2006 
@@ -33,7 +33,6 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import de.julielab.jsbd.JSBDException;
 import de.julielab.jsbd.SentenceSplitter;
 import de.julielab.jsbd.Unit;
 import de.julielab.jules.types.Annotation;
@@ -142,12 +141,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 
 		// make prediction
 		ArrayList<Unit> units;
-		try {
-			units = sentenceSplitter.predict(lines, doPostprocessing);
-		} catch (JSBDException e) {
-			LOGGER.error("[JSBD] " + e.getMessage());
-			throw new AnalysisEngineProcessException();
-		}
+		units = sentenceSplitter.predict(lines, doPostprocessing);
 
 		// add to UIMA annotations
 		addAnnotations(aJCas, units);
