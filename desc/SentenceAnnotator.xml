@@ -41,7 +41,7 @@
       <nameValuePair>
         <name>ModelFilename</name>
         <value>
-          <string>resources/JULIE_life-science-2.0.mod.gz</string>
+          <string>resources/JSBD-2.0-biomed.mod.gz</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
