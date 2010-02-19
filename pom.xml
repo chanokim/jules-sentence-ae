@@ -41,5 +41,27 @@
  
  
   </dependencies>
+  
+  
+  
+  <!-- UNCOMMENT THIS PART IF YOU WANT TO CREATE A JAR PACKAGE FOR JSBD
+   <build>
+    <plugins>
+         <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+                <finalName>JSBD-2.4</finalName> 
+                <excludes>
+                      <exclude>de/julielab/jules/**/*.class</exclude>
+                </excludes>    
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+ -->
+  
+  
+  
 </project>
 

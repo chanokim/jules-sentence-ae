@@ -1,0 +1,32 @@
+JULIE Sentence Boundary Detector (JSBD)
+
+Introduction
+============
+JSBD is a ML-based sentence splitter. It can be retrained on supported
+training material and is thus neither language nor domain dependent.
+
+
+
+Dependencies
+============ 
+JSBD is based on the machine learning toolkit MALLET (Version 0.4). The
+necessary libraries are included in the lib/ directory.
+
+
+Usage
+=====
+
+To run JSBD just type "java -jar JSBD-1.x.jar". This will show the available modes.
+
+Documentation
+==============
+For further information please refer to the documentation, JSBD-1.x.pdf.
+
+
+Contact
+=======
+Katrin Tomanek
+Jena Language & Information Engineering Lab (JULIE)
+web: http://www.coling.uni-jena.de
+email: tomanek@coling-uni-jena.de
+phone: +49 3641 44307

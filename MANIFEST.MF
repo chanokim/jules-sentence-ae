@@ -1,0 +1,2 @@
+Class-Path: lib/mallet-troveless-0.4.jar lib/mallet-deps.jar lib/trove-1.1b5.jar
+Main-Class: de.julielab.jsbd.SentenceSplitterApplication
