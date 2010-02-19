@@ -2,8 +2,6 @@
 \usepackage{graphicx}
 \usepackage[utf8x]{inputenc}
 \usepackage{url} 
-\usepackage[T1]{fontenc}
-\usepackage{ucs} 
 \pagestyle{plain}
 
 \title{\small{Documentation for}\\\huge JULIE Lab Sentence Boundary Detector\\\vspace{3mm}\small{Version 2.2}}
@@ -20,8 +18,11 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
-\section{Objective}
+\section{UIMA-Wrapper}
+
+
 
 The JULIE Lab Sentence Boundary Detector (UIMA-JSBD) is a sentence
 boundary detector for UIMA.  It is part of the JULIE Lab NLP tool
@@ -34,7 +35,7 @@ UIMA-JSBD is is an UIMA wrapper for JSBD, the respective command-line
 version. For more detailed information on the functioning of JSBD
 check the JSBD documentation or refer to \cite{Tomanek2007a}.
 
-\section{Installation}
+\subsection{Installation}
 
 UIMA-JSBD comes as a UIMA pear file. Run the Pear-Installer (e.g.,
 \url{./runPearInstaller.sh} for Linux) from your UIMA-bin directory.
@@ -54,17 +55,12 @@ is yielded on this data using 10-fold cross-validation.  You will find
 the model trained on this data in the directory \url{resources}.
 
 
-
-%\section{Changelog}
-% uncomment when needed
-
-
-\section{Requirements and Dependencies}
+\subsection{Requirements and Dependencies}
 
 % mostly our tools will be based on java 1.5 and use UIMA
 UIMA-JSBD is written in Java (version 1.5 or above required) using
 Apache UIMA version
-2.2.1-incubation\footnote{\url{http://incubator.apache.org/uima/}}.
+2.2.x-incubation\footnote{\url{http://incubator.apache.org/uima/}}.
 
 % ref to our type system
 The input and output of an AE takes place by annotation objects. The
@@ -80,7 +76,7 @@ machine learning toolkit MALLET \cite{McCallum2002}.
 
 
 
-\section{Using the AE -- Descriptor Configuration}
+\subsection{Using the AE -- Descriptor Configuration}
 % carefully edit this section!
 
 In UIMA, each component is configured by a descriptor in XML. In the
@@ -236,6 +232,218 @@ Nothing needs to be done here.
 \paragraph{Resources}
 % adapt if needed
 Nothing needs to be done here.
+
+
+
+
+%------------
+\clearpage
+\section{JSBD: Core Functionality and Stand Alone Tool}
+\label{sec_objective}
+
+JULIE Sentence Boundary Detector (JSBD) is a sentence splitter
+developed and optimized for the bio-medical domain. In contrast to
+most other sentence splitters which consists of simple patterns, JSBD
+is based on machine learning (see Section \ref{sec:background}) which
+enables it to handle also tricky cases occuring frequently in life
+science documents. See \cite{tomanek.medinfo07} for a more in depth
+description of JSDB and a performance study.
+
+
+JSBD offers the following functionalities:
+\begin{itemize}
+\item training a model
+\item prediction using a previously trained model
+\item evaluation
+\end{itemize}
+
+% \subsection{Changelog}
+% since version 1.5:
+% \begin{itemize}
+% \item models now compressed with GZIP\end{itemize}
+
+
+% since version 1.2:
+% \begin{itemize}
+% \item regular expression set modified (JSBD can now also handle german
+%   umlauts)\end{itemize}
+
+
+\subsection{Installation}
+Just unpack JSBDv1.6.tgz The program is written in Java\footnote{Java
+  is a registered trademark of Sun Microsystems, Inc.}. Note that JSBD
+was only tested with Java 1.5; you need at least the Java 1.5 runtime
+environment installed on your system to run JSBD. In addition to the
+common Java libraries, JSBD employs \textsc{MALLET} \cite{mallet}, a
+machine learning toolkit (no further installation steps are
+required here).
+
+\subsection{File Formats}
+\label{sec_formats}
+There are two input formats for text documents. There are some example
+documents in directory \url{testdata}. All data need to be simple
+ASCII.
+\begin{itemize}
+\item For training and evaluation, JSBD needs to know the sentence
+  boundaries.  Therefore the documents must have exactly one sentence
+  per line. (see directory \url{testdata/train/}).
+\item For sentence splitting, the only requirement for the documents
+  is that they are plain text, without any XML tags etc. (see
+  \url{testdata/split/})
+\end{itemize}
+
+
+\subsection{Using JSBD}
+
+To execute JSBD just type 
+
+\begin{verbatim}
+java -jar JSBD-1.6.jar
+\end{verbatim}
+
+without any arguments. This will print the following list of available
+modes:
+
+\begin{verbatim}
+usage: JSBD <mode> {mode_specific_parameters}
+different modes:
+c: check texts
+t: train a sentence splitting model
+p: do the sentence splitting
+s: evaluation with 90-10 split
+x: evaluation with cross-validation
+e: evaluation on previously trained model
+\end{verbatim}
+
+When running JSBD only with the mode as its only parameter it will
+return the specific parameters needed for this mode.
+
+\subsubsection{Data Check}
+
+The provided data is checked for the correct format. In training mode,
+all training files need to be in the following format: one sentence
+per line. At the end of the line there should be a EOS
+(end-of-sentence) symbol (is defined in the EOSSymbols class). If this
+is not the case, an error message is thrown.
+
+\begin{verbatim}
+java -jar JSBD-1.6.jar c
+
+-> usage: JSBD c <textDir>
+\end{verbatim}
+
+\textit{<textDir>} is the directory with the text documents to be
+checked, all files in this directory are considered
+
+
+\subsubsection{Evaluation}
+
+There are two evaluation modes to evaluate the sentence splitter on
+given training material. Performance is measured in terms of accuracy, i.e.\
+the number of correct decisions divided by the total number of
+decisions being made.
+
+\begin{description}
+\item [90-10 split evaluation] the given data is split into two data
+  sets, 90\% of the files are used for training the model, the other
+  10\% are used to evaluate the trained model (splits are made on file
+  level, i.e. you should make sure, that the files are more or less of
+  the same size)
+
+\begin{verbatim}
+java -jar JSBD-1.6.jar s
+
+-> usage: JSBD s <textDir> <errorFile>
+\end{verbatim}
+
+\textit{<textDir>} is the directory with the text documents used for
+evaluation (i.e. the same format as the training data). All files in
+this directory are considered. \textit{<errorFile>} is a file where
+all predictions errors are written to.
+
+
+\item[X-fold cross-validation] the given data is split into X data
+  sets. X rounds of evaluation are run, in each round X-1 of these data
+  sets are used for training and the remaining one is used for
+  evaluation. Finally, the results of each round are averaged. (splits
+  are made the same way as in 90-10 mode)
+
+x-validation:
+\begin{verbatim}
+java -jar JSBD-1.6.jar x
+
+-> usage: JSBD x <textDir> <cross-val-rounds> <errorFile>
+\end{verbatim}
+
+\textit{<textDir>} and \textit{<errorFile>} are the same as in 90-10
+split mode. \textit{<cross-val-round>} is the number of rounds for
+cross-validation. Typically, this might be set to 10.
+
+\end{description}
+
+\subsubsection{Training}
+
+To train a sentence splitter model, you need to provide some training
+material (format: see above). The trained model can then be saved to
+disk and used for sentence splitting.
+
+\begin{verbatim}
+java -jar JSBD-1.6.jar t
+
+-> usage: JSBD t <trainDir> <modelFilename>
+\end{verbatim}
+
+\textit{<trainDir>} is the directory with training data. All files are
+considered and should be in the according format (see above).
+\textit{<modelFilename>} is the file where the resulting model is
+saved.
+
+\subsubsection{Prediction}
+
+To employ the sentence splitter, you need a trained model. You can get
+a sentence splitting (trained on our manually compiled training
+material for the bio-medical domain (language: english)) from our
+website.
+
+
+\begin{verbatim}
+java -jar JSBD-1.6.jar p
+
+-> JSBD.sh p <inDir> <outDir> <modelFilename>
+\end{verbatim}
+
+\textit{<inDir>} is a directory of text documents which should be
+sentence splitted. \textit{<modelFilename>} is the file where a
+previously model was saved to. The processed texts with one sentence
+per line are written to \textit{<outDir>}
+
+\subsection{Background/Algorithms}
+\label{sec:background}
+
+JSBD is based on Conditional Random Fields (CRFs) \cite{lafferty01}, a
+sequential learning algorithm. 
+
+\subsection{Evaluation Studies and Available Models}
+
+JSBD was developed and optimized for the bio-medical domain. However,
+when training it on respective corpora, it may also be used for other
+domains.
+
+We have evaluated JSBD on our data which we compiled for the
+bio-medical domain. It consists of data from both the GENIA
+\cite{ohta02} and the
+\textsc{PennBioIE}\footnote{\url{http://bioie.ldc.upenn.edu/}} corpus
+and additional material which we took from MedLine abstracts.
+
+Currently, it comprises about 62000 sentences. An accuracy of 99.8\% is
+yielded on this data using 10-fold cross-validation.  You will find
+the model trained on this data in the directory \url{models}.
+
+If you run any evaluations on other data, we would be happy to learn
+about your experiences and evaluation results with JSBD.
+
+
+
 
 
 \section{Copyright and License}
