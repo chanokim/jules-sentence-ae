@@ -4,7 +4,7 @@
 \usepackage{url} 
 \pagestyle{plain}
 
-\title{\small{Documentation for}\\\huge JULIE Lab Sentence Boundary Detector\\\vspace{3mm}\small{Version 2.2}}
+\title{\small{Documentation for}\\\huge JULIE Lab Sentence Boundary Detector\\\vspace{3mm}\small{Version 2.4}}
 
 
 \author{\normalsize Katrin Tomanek\\
@@ -70,7 +70,7 @@ classes corresponding to these objects are part of the \emph{JULIE Lab
   \url{http://www.julielab.de/}, however, this package already
   includes the necessary parts of the type system.}
 
-This version of UIMA-JSBD is based on JSBD-1.6 which employs the
+This version of UIMA-JSBD is based on JSBD-2.4 which employs the
 machine learning toolkit MALLET \cite{McCallum2002}.
 
 
@@ -127,7 +127,7 @@ UIMA-JSBD you need to provide the information as specified in Table
     \hline
     Overall Identification Information & Name &  Sentence Annotator \\
     \cline{2-3}
-    & Version &  2.2 \\
+    & Version &  2.4 \\
     \cline{2-3}
     & Vendor & JULIE Lab\\
     \cline{2-3}
@@ -186,7 +186,7 @@ parameter settings of this AE.
     \hline
     Parameter Name & Parameter Syntax & Example \\
     \hline\hline
-    ModelFilename & full path & \url{resources/JULIE_life-science-1.6.mod.gz}\\
+    ModelFilename & full path & \url{resources/JSBD-2.0-biomed.mod.gz}\\
     \hline
     Postprocessing & true/false & true\\
     \hline 
@@ -270,7 +270,7 @@ JSBD offers the following functionalities:
 
 
 \subsection{Installation}
-Just unpack JSBDv1.6.tgz The program is written in Java\footnote{Java
+Just unpack the tar-ball. The program is written in Java\footnote{Java
   is a registered trademark of Sun Microsystems, Inc.}. Note that JSBD
 was only tested with Java 1.5; you need at least the Java 1.5 runtime
 environment installed on your system to run JSBD. In addition to the
@@ -298,7 +298,7 @@ ASCII.
 To execute JSBD just type 
 
 \begin{verbatim}
-java -jar JSBD-1.6.jar
+./runJSBDpackaged.sh
 \end{verbatim}
 
 without any arguments. This will print the following list of available
@@ -327,7 +327,7 @@ per line. At the end of the line there should be a EOS
 is not the case, an error message is thrown.
 
 \begin{verbatim}
-java -jar JSBD-1.6.jar c
+./runJSBDpackaged.sh c
 
 -> usage: JSBD c <textDir>
 \end{verbatim}
@@ -351,7 +351,7 @@ decisions being made.
   the same size)
 
 \begin{verbatim}
-java -jar JSBD-1.6.jar s
+./runJSBDpackaged.sh s
 
 -> usage: JSBD s <textDir> <errorFile>
 \end{verbatim}
@@ -370,7 +370,7 @@ all predictions errors are written to.
 
 x-validation:
 \begin{verbatim}
-java -jar JSBD-1.6.jar x
+./runJSBDpackaged.sh x
 
 -> usage: JSBD x <textDir> <cross-val-rounds> <errorFile>
 \end{verbatim}
@@ -388,7 +388,7 @@ material (format: see above). The trained model can then be saved to
 disk and used for sentence splitting.
 
 \begin{verbatim}
-java -jar JSBD-1.6.jar t
+./runJSBDpackaged.sh t
 
 -> usage: JSBD t <trainDir> <modelFilename>
 \end{verbatim}
@@ -407,7 +407,7 @@ website.
 
 
 \begin{verbatim}
-java -jar JSBD-1.6.jar p
+./runJSBDpackaged.sh p
 
 -> JSBD.sh p <inDir> <outDir> <modelFilename>
 \end{verbatim}
@@ -437,7 +437,7 @@ and additional material which we took from MedLine abstracts.
 
 Currently, it comprises about 62000 sentences. An accuracy of 99.8\% is
 yielded on this data using 10-fold cross-validation.  You will find
-the model trained on this data in the directory \url{models}.
+the model trained on this data in the directory \url{resources}.
 
 If you run any evaluations on other data, we would be happy to learn
 about your experiences and evaluation results with JSBD.

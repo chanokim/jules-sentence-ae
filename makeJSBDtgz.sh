@@ -24,7 +24,7 @@ cd ..
 
 
 # do the packaging
-tar -czvf JSBD-2.4.tgz runJSBDpackaged.sh src lib testdata models \
+tar -czvf JSBD-2.4.tgz runJSBDpackaged.sh src lib testdata resources \
 README LICENSE COPYRIGHT JSBD-2.4.pdf \
 --exclude=".svn" --exclude "*jules*java" --exclude "*src/test*" --exclude "julie*types.xml"
 

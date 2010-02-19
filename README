@@ -9,18 +9,18 @@ training material and is thus neither language nor domain dependent.
 
 Dependencies
 ============ 
-JSBD is based on the machine learning toolkit MALLET (Version 0.4). The
+JSBD is based on a slightly modified version of the machine learning toolkit MALLET (Version 2.0.x). The
 necessary libraries are included in the lib/ directory.
 
 
 Usage
 =====
 
-To run JSBD just type "java -jar JSBD-1.x.jar". This will show the available modes.
+To run JSBD just run the script "runJSBDpackaged.sh". This will show the available modes.
 
 Documentation
 ==============
-For further information please refer to the documentation, JSBD-1.x.pdf.
+For further information please refer to the documentation, JSBD-x.pdf.
 
 
 Contact
@@ -28,5 +28,5 @@ Contact
 Katrin Tomanek
 Jena Language & Information Engineering Lab (JULIE)
 web: http://www.coling.uni-jena.de
-email: tomanek@coling-uni-jena.de
+email: katrin.tomanek@uni-jena.de
 phone: +49 3641 44307
