@@ -112,10 +112,11 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 			// loop of annotation object of the scope
 			try {
 				Annotation anno = getAnnotationByClassName(aJCas, processingScope);
+				anno.getTypeIndexID();
 				JFSIndexRepository indexes = aJCas.getJFSIndexRepository();
-				Iterator<Annotation> iter = indexes.getAnnotationIndex(anno.getTypeIndexID()).iterator();
+				Iterator<org.apache.uima.jcas.tcas.Annotation> iter = indexes.getAnnotationIndex(anno.getTypeIndexID()).iterator();
 				while (iter.hasNext()) {
-					Annotation annotation = iter.next();
+					org.apache.uima.jcas.tcas.Annotation annotation = iter.next();
 					String annoText = annotation.getCoveredText();
 					if (annoText != null && annoText.length() > 0) {
 						doSegmentation(aJCas, annoText);
