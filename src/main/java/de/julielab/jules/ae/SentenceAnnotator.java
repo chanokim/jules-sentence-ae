@@ -24,14 +24,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
-
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.resource.ResourceInitializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.julielab.jsbd.SentenceSplitter;
 import de.julielab.jsbd.Unit;
@@ -43,7 +43,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SentenceAnnotator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SentenceAnnotator.class);
 
 	// activate post processing
 	private boolean doPostprocessing = false;

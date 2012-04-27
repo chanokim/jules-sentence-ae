@@ -5,7 +5,7 @@
   <version>2.1</version>
   <vendor/>
   <imports>
-    <import location="../../main/resources/julie-basic-types.xml"/>
+    <import name="julie-basic-types"/>
   </imports>
   <types>
     <typeDescription>
