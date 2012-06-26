@@ -17,30 +17,29 @@
 
 package de.julielab.jules.ae;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
 import java.util.Iterator;
+
+import junit.framework.TestCase;
 
 import org.apache.uima.UIMAFramework;
 import org.apache.uima.analysis_engine.AnalysisEngine;
-import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.JFSIndexRepository;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceSpecifier;
 import org.apache.uima.util.XMLInputSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.julielab.jules.types.Sentence;
 import de.julielab.jules.types.TestScope;
-
-import junit.framework.TestCase;
 
 public class SentenceAnnotatorTest extends TestCase {
 
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SentenceAnnotatorTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SentenceAnnotatorTest.class);
 	
 	private static final String LOGGER_PROPERTIES = "src/test/java/log4j.properties";
 	
@@ -59,11 +58,6 @@ public class SentenceAnnotatorTest extends TestCase {
 	
 	private static final int[] endOffsets = {54,32,27,0};
 	
-	protected void setUp() throws Exception {
-		super.setUp();
-		// set log4j properties file
-		PropertyConfigurator.configure(LOGGER_PROPERTIES);
-	}
 	
 	/**
 	 * Use the model in resources, split the text in TEST_TEXT 

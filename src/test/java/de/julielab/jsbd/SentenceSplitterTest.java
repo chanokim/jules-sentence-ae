@@ -15,7 +15,8 @@
 
 package de.julielab.jsbd;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +25,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cc.mallet.pipe.Pipe;
 import cc.mallet.types.Instance;
@@ -38,7 +40,7 @@ import cc.mallet.types.InstanceList;
  */
 public class SentenceSplitterTest {
 
-	private static final Logger LOGGER = Logger.getLogger(SentenceSplitterTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SentenceSplitterTest.class);
 
 	private static final String FILENAME_MODEL = "src/test/resources/models/testing.mod.gz";
 	private static final String FILENAME_TRAIN_DATA = "src/test/resources/testdata/train/train.dat";
@@ -119,9 +121,9 @@ public class SentenceSplitterTest {
 					list.add(line);
 				}
 			} catch (FileNotFoundException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage(), e);
 			} catch (IOException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage(), e);
 			}
 
 		}
@@ -146,9 +148,9 @@ public class SentenceSplitterTest {
 					buffer.append(line);
 				}
 			} catch (FileNotFoundException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage(), e);
 			} catch (IOException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage(), e);
 			}
 
 		}

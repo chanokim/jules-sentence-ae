@@ -34,17 +34,12 @@ import java.util.TreeSet;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import cc.mallet.cluster.examples.FirstOrderClusterExample;
 import cc.mallet.fst.CRF;
 import cc.mallet.fst.CRFTrainerByLabelLikelihood;
-import cc.mallet.fst.CRFTrainerByStochasticGradient;
-import cc.mallet.fst.MaxLatticeDefault;
-import cc.mallet.fst.MultiSegmentationEvaluator;
-import cc.mallet.fst.Transducer;
 import cc.mallet.pipe.Pipe;
-import cc.mallet.pipe.PrintTokenSequenceFeatures;
 import cc.mallet.pipe.SerialPipes;
 import cc.mallet.pipe.TokenSequence2FeatureVectorSequence;
 import cc.mallet.pipe.tsf.OffsetConjunctions;
@@ -56,7 +51,7 @@ import cc.mallet.types.Sequence;
 
 public class SentenceSplitter {
 
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 	.getLogger(SentenceSplitter.class);
 	
 	CRF model = null;
