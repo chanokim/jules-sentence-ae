@@ -6,7 +6,7 @@
   <analysisEngineMetaData>
     <name>Sentence Annotator</name>
     <description>This is the UIMA Wrapper for the JULIE Sentence Boundary Detector.</description>
-    <version>2.3</version>
+    <version>2.5.3-SNAPSHOT</version>
     <vendor>julielab</vendor>
     <configurationParameters>
       <configurationParameter>
@@ -41,13 +41,13 @@
       <nameValuePair>
         <name>ModelFilename</name>
         <value>
-          <string>resources/JSBD-2.0-biomed.mod.gz</string>
+          <string>$main_root/resources/JSBD-2.0-biomed.mod.gz</string>
         </value>
       </nameValuePair>
     </configurationParameterSettings>
     <typeSystemDescription>
       <imports>
-        <import location="julie-morpho-syntax-types.xml"/>
+        <import name="julie-morpho-syntax-types"/>
       </imports>
     </typeSystemDescription>
     <typePriorities/>
