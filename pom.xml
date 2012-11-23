@@ -26,7 +26,18 @@
 				<artifactId>PearPackagingMavenPlugin</artifactId>
 			</plugin>
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>jules-sentence-ae.xml</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
+
+
 
 	<dependencies>
 
