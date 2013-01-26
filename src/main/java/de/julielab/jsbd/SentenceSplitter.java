@@ -307,7 +307,7 @@ public class SentenceSplitter {
 			ObjectOutputStream oos = new ObjectOutputStream(gout);
 			oos.writeObject(this.model);
 			oos.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -338,7 +338,7 @@ public class SentenceSplitter {
 				lines.add(line);
 			}
 			b.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
