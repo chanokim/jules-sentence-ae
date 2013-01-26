@@ -43,9 +43,9 @@ class Abstract2UnitPipe extends Pipe {
 
 	private static final Pattern splitPattern = Pattern.compile("[^\\s]+");
 
-	TreeSet eosSymbols;
+	TreeSet<String> eosSymbols;
 
-	TreeSet abbrList;
+	TreeSet<String> abbrList;
 
 	Abstract2UnitPipe() {
 		super (new Alphabet(), new LabelAlphabet());
@@ -66,8 +66,8 @@ class Abstract2UnitPipe extends Pipe {
 	public Instance pipe(Instance carrier) {
 
 		String abstractFileName = (String) carrier.getSource();
-		ArrayList lines = (ArrayList) carrier.getData();
-		HashMap unitFreq = getUnitFrequency(lines);
+		ArrayList<String> lines = (ArrayList<String>) carrier.getData();
+		HashMap<String, Integer> unitFreq = getUnitFrequency(lines);
 
 		// the features for each token
 		TokenSequence data = new TokenSequence();
@@ -285,19 +285,20 @@ class Abstract2UnitPipe extends Pipe {
 	 *            the input file split into single lines
 	 * @return
 	 */
-	private HashMap getUnitFrequency(ArrayList lines) {
+	private HashMap<String, Integer> getUnitFrequency(ArrayList<String> lines) {
 		HashMap<String, Integer> freq = new HashMap<String, Integer>();
 		for (int i = 0; i < lines.size(); i++) {
-			String line = (String) lines.get(i);
+			String line = lines.get(i);
 
-			ArrayList units = getUnits(line);
+			ArrayList<Unit> units = getUnits(line);
 
 			for (int j = 0; j < units.size(); j++) {
-				Unit u = (Unit) units.get(j);
+				Unit u = units.get(j);
 
 				int count = 0;
-				if (freq.containsKey(u.rep))
-					count = ((Integer) freq.get(u.rep)).intValue();
+				if (freq.containsKey(u.rep)) {
+					count = freq.get(u.rep);
+				}
 				count++;
 				freq.put(u.rep, count);
 			}

@@ -63,7 +63,7 @@ class Abbreviations {
 
 	}
 
-	TreeSet getSet() {
+	TreeSet<String> getSet() {
 		return abbr;
 	}
 }

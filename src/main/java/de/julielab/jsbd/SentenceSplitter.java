@@ -75,7 +75,7 @@ public class SentenceSplitter {
 	 * creates a single instance from the file provided and the given pipe
 	 */
 	public Instance makePredictionData(File predictFile, Pipe myPipe) {
-		ArrayList lines = readFile(predictFile);
+		ArrayList<String> lines = readFile(predictFile);
 		Instance inst = model.getInputPipe().instanceFrom(new Instance(lines, "", "", predictFile.getName()));
 		return inst;
 	}
@@ -86,7 +86,7 @@ public class SentenceSplitter {
 	public InstanceList makePredictionData(File[] predictFiles, Pipe myPipe) {
 		InstanceList predictData = new InstanceList(myPipe);
 		for (int i = 0; i < predictFiles.length; i++) {
-			ArrayList fileLines = readFile(predictFiles[i]);
+			ArrayList<String> fileLines = readFile(predictFiles[i]);
 			Instance inst = model.getInputPipe().instanceFrom(
 							new Instance(fileLines, "", "", predictFiles[i].getName()));
 			predictData.add(inst);
@@ -185,9 +185,9 @@ public class SentenceSplitter {
 		ArrayList<String> labelList = new ArrayList<String>();
 
 		// transduce and generate output
-		Sequence crfOutput = model.transduce(input);
+		Sequence<String> crfOutput = model.transduce(input);
 		for (int j = 0; j < crfOutput.size(); j++) {
-			labelList.add((String) crfOutput.get(j));
+			labelList.add(crfOutput.get(j));
 		}
 
 		// postprocessing
@@ -197,7 +197,7 @@ public class SentenceSplitter {
 
 		// now write output to units
 		for (int j = 0; j < labelList.size(); j++) {
-			(units.get(j)).label = (String) labelList.get(j);
+			(units.get(j)).label = labelList.get(j);
 		}
 		return units;
 	}
@@ -213,7 +213,7 @@ public class SentenceSplitter {
 	public ArrayList<String> postprocessingFilter(ArrayList<String> predLabels, ArrayList<Unit> units) {
 
 		Abbreviations abr = new Abbreviations();
-		TreeSet abrSet = abr.getSet();
+		TreeSet<String> abrSet = abr.getSet();
 
 		String[] labels = (String[]) predLabels.toArray(new String[predLabels.size()]);
 		ArrayList<String> newPred = new ArrayList<String>();

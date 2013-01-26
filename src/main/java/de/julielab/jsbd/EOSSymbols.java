@@ -38,7 +38,7 @@ class EOSSymbols {
 		symbols.add("\"");
 	}
 	
-	public TreeSet getSymbols() {
+	public TreeSet<String> getSymbols() {
 		return symbols;
 	}
 	
@@ -49,8 +49,9 @@ class EOSSymbols {
 	public boolean tokenEndsWithEOSSymbol(String token) {
 		if (token.length()>0) {
 			String lastChar = token.substring(token.length() - 1, token.length());
-			if (symbols.contains(lastChar))
+			if (symbols.contains(lastChar)) {
 				return true;
+			}
 		} 
 		return false;
 	}
