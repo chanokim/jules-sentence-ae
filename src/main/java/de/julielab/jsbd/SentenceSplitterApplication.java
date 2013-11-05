@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeSet;
+import java.util.zip.GZIPInputStream;
 
 import cc.mallet.fst.CRF;
 import cc.mallet.pipe.Pipe;
@@ -99,7 +100,7 @@ public class SentenceSplitterApplication {
 		CRF crf = null;
 		try {
 			// load model
-			in = new ObjectInputStream(new FileInputStream(args[1]));
+			in = new ObjectInputStream(new GZIPInputStream(new FileInputStream(args[1])));
 			crf = (CRF) in.readObject();
 			in.close();
 		} catch (Exception e) {
@@ -115,10 +116,10 @@ public class SentenceSplitterApplication {
 		File[] abstractArray = abstractDir.listFiles();
 		TreeSet<String> errorList = new TreeSet<String>();
 
-		double acc = doEvaluation(crf, abstractArray, errorList);
+		EvalResult er = doEvaluation(crf, abstractArray, errorList);
 		writeFile(errorList, new File(args[3]));
 
-		System.out.println("\n\nAccuracy on pretrained model: " + acc);
+		System.out.println("\n\nAccuracy on pretrained model: " + er.ACC);
 		System.exit(0);
 	}
 
@@ -144,10 +145,10 @@ public class SentenceSplitterApplication {
 		File[] abstractArray = abstractDir.listFiles();
 		TreeSet<String> errorList = new TreeSet<String>();
 
-		double acc = do9010Evaluation(abstractArray, errorList);
+		EvalResult er = do9010Evaluation(abstractArray, errorList);
 		writeFile(errorList, new File(args[2]));
 
-		System.out.println("\n\nAccuracy on 90/10 split: " + acc);
+		System.out.println("\n\nAccuracy on 90/10 split: " + er.ACC);
 		System.exit(0);
 	}
 
@@ -282,7 +283,7 @@ public class SentenceSplitterApplication {
 	/**
 	 * evaluation via 90-10 split of data
 	 */
-	private static double do9010Evaluation(File[] abstractArray, TreeSet<String> errorList) {
+	private static EvalResult do9010Evaluation(File[] abstractArray, TreeSet<String> errorList) {
 
 		ArrayList<File> abstractList = new ArrayList<File>();
 		for (int i = 0; i < abstractArray.length; i++)
@@ -337,8 +338,9 @@ public class SentenceSplitterApplication {
 		System.out.println("size of each/last round: " + sizeRound + "/" + sizeLastRound);
 		System.out.println();
 
-		double[] acc = new double[n]; // 
+		EvalResult[] evalResults = new EvalResult[n]; // 
 		double avgAcc = 0;
+		double avgF = 0;
 
 		for (int i = 0; i < n; i++) { // in each round
 
@@ -387,17 +389,20 @@ public class SentenceSplitterApplication {
 			// now evaluate for this round
 			System.out.println("training size: " + trainFiles.length);
 			System.out.println("prediction size: " + predictFiles.length);
-			acc[i] = doEvaluation(trainFiles, predictFiles, errorList);
+			evalResults[i] = doEvaluation(trainFiles, predictFiles, errorList);
 		}
 
 		DecimalFormat df = new DecimalFormat("0.000");
-		for (int i = 0; i < acc.length; i++) {
-			avgAcc += acc[i];
-			System.out.println(i + ": " + df.format(acc[i]));
+		for (int i = 0; i < evalResults.length; i++) {
+			avgAcc += evalResults[i].ACC;
+			avgF += evalResults[i].getF();
+			System.out.println(i + ": " + df.format(evalResults[i].ACC));
 		}
 		avgAcc = avgAcc / (double) n;
+		avgF = avgF / (double) n;
 
 		System.out.println("avg accuracy: " + df.format(avgAcc));
+		System.out.println("avg f-score: " + df.format(avgF));
 
 		return avgAcc;
 	}
@@ -414,7 +419,7 @@ public class SentenceSplitterApplication {
 	 *            write classification errors there stored...
 	 * @return accuracy
 	 */
-	private static double doEvaluation(File[] trainFiles, File[] predictFiles, TreeSet<String> errorList) {
+	private static EvalResult doEvaluation(File[] trainFiles, File[] predictFiles, TreeSet<String> errorList) {
 
 		SentenceSplitter tpFunctions = new SentenceSplitter();
 
@@ -439,6 +444,8 @@ public class SentenceSplitterApplication {
 		System.out.println("predicting...");
 		int corr = 0;
 		int all = 0;
+		int fp = 0;
+		int fn = 0;
 		double acc = 0;
 		for (int i = 0; i < predictData.size(); i++) {
 			Instance inst = (Instance) predictData.get(i);
@@ -467,16 +474,34 @@ public class SentenceSplitterApplication {
 						String error = abstractName + "\t" + org + "\t" + pred + "\t" + unitRep + "  (" + j + ")";
 						// System.out.println(error);
 						errorList.add(error);
+						if (pred.equals("EOS") && org.equals("IS"))
+							fp++;
+						else if (pred.equals("IS") && org.equals("EOS"))
+							fn++;
 					}
 				}
 			}
 		}
+		
 		acc = corr / (double) all;
+		EvalResult er = new EvalResult();
+		er.corrDecisions = corr;
+		er.nrDecisions = all;
+		er.fn = fn;
+		er.fp = fp;
+		er.ACC = acc;
 		System.out.println("all : " + all);
 		System.out.println("corr: " + corr);
-		System.out.println("ACC : " + corr / (double) all);
+		System.out.println("fp :" + fp);
+		System.out.println("fn :" + fn);
+		System.out.println("R :" + er.getR());
+		System.out.println("P :" + er.getP());
+		System.out.println("F :" + er.getF());
+		System.out.println("ACC : " + acc);
 
-		return acc;
+
+//		return acc;
+		return er;
 	}
 
 	/**
@@ -491,7 +516,7 @@ public class SentenceSplitterApplication {
 	 *            write classification errors there stored...
 	 * @return accuracy
 	 */
-	private static double doEvaluation(CRF crf, File[] predictFiles, TreeSet<String> errorList) {
+	private static EvalResult doEvaluation(CRF crf, File[] predictFiles, TreeSet<String> errorList) {
 
 		SentenceSplitter tpFunctions = new SentenceSplitter();
 		tpFunctions.setModel(crf);
@@ -506,6 +531,8 @@ public class SentenceSplitterApplication {
 		System.out.println("predicting...");
 		int corr = 0;
 		int all = 0;
+		int fn= 0;
+		int fp=0;
 		double acc = 0;
 		for (int i = 0; i < predictData.size(); i++) {
 			Instance inst = predictData.get(i);
@@ -541,16 +568,33 @@ public class SentenceSplitterApplication {
 						String error = abstractName + "\t" + org + "\t" + pred + "\t" + unitRep + "  (" + j + ")";
 						// System.out.println(error);
 						errorList.add(error);
+						if (pred.equals("EOS") && org.equals("IS"))
+							fp++;
+						else if (pred.equals("IS") && org.equals("EOS"))
+							fn++;
 					}
 				}
 			}
 		}
 		acc = corr / (double) all;
+		EvalResult er = new EvalResult();
+		er.corrDecisions = corr;
+		er.nrDecisions = all;
+		er.fn = fn;
+		er.fp = fp;
+		er.ACC = acc;
 		System.out.println("all : " + all);
 		System.out.println("corr: " + corr);
-		System.out.println("ACC : " + corr / (double) all);
+		System.out.println("fp :" + fp);
+		System.out.println("fn :" + fn);
+		System.out.println("R :" + er.getR());
+		System.out.println("P :" + er.getP());
+		System.out.println("F :" + er.getF());
+		System.out.println("ACC : " + acc);
 
-		return acc;
+		
+//		return acc;
+		return er;
 	}
 
 	/**
@@ -698,4 +742,24 @@ public class SentenceSplitterApplication {
 
 	}
 
+	
+	private static class EvalResult {
+		int nrDecisions;
+		double ACC;
+		double fp;
+		double fn;
+		double corrDecisions;
+
+		double getF() {
+			return 2 * getR() * getP() / (getR() + getP());
+		}
+
+		double getR() {
+			return (double) corrDecisions / (corrDecisions + fn);
+		}
+
+		double getP() {
+			return (double) corrDecisions / (corrDecisions + fp);
+		}
+	}
 }
