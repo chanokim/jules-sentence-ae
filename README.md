@@ -9,8 +9,7 @@ training material and is thus neither language nor domain dependent.
 
 Dependencies
 ============ 
-JSBD is based on a slightly modified version of the machine learning toolkit MALLET (Version 2.0.x). The
-necessary libraries are included in the lib/ directory.
+JTBD is based on a slightly modified version of the machine learning toolkit MALLET (Version 2.0.x). The necessary libraries are included in the executable JAR (see below) and accessible via the JULIE Nexus artifact manager.
 
 
 Usage
