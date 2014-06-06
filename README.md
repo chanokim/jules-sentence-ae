@@ -16,7 +16,7 @@ necessary libraries are included in the lib/ directory.
 Usage
 =====
 
-To run JSBD just run the self-executing JAR "jsbd-<version>.jar". This will show the available modes.
+To run JSBD just run the self-executing JAR "jsbd-&lt;version&gt;.jar". This will show the available modes.
 
 Documentation
 ==============
