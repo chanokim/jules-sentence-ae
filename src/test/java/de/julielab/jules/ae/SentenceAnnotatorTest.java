@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.julielab.jules.types.Sentence;
-import de.julielab.jules.types.TestScope;
 
 public class SentenceAnnotatorTest extends TestCase {
 
@@ -96,8 +95,8 @@ public class SentenceAnnotatorTest extends TestCase {
 			jcas.setDocumentText(TEST_TEXT[i]);
 
 			// make one test scope ranging over complete document text annotations for the processing scope
-			TestScope scope1 = new TestScope(jcas,0,endOffsets[i]);
-			scope1.addToIndexes();
+//			TestScope scope1 = new TestScope(jcas,0,endOffsets[i]);
+//			scope1.addToIndexes();
 			//TestScope scope2 = new TestScope(jcas,37,54);
 
 			

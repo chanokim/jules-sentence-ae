@@ -23,6 +23,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -137,11 +138,11 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	}
 
 	private void doSegmentation(JCas aJCas, String text) throws AnalysisEngineProcessException {
-		ArrayList<String> lines = new ArrayList<String>();
+		List<String> lines = new ArrayList<String>();
 		lines.add(text);
 
 		// make prediction
-		ArrayList<Unit> units;
+		List<Unit> units;
 		units = sentenceSplitter.predict(lines, doPostprocessing);
 
 		// add to UIMA annotations
@@ -158,7 +159,7 @@ public class SentenceAnnotator extends JCasAnnotator_ImplBase {
 	 * @param units
 	 *            all sentence units as returned by JSBD
 	 */
-	private void addAnnotations(JCas aJCas, ArrayList<Unit> units) {
+	private void addAnnotations(JCas aJCas, List<Unit> units) {
 		int start = 0;
 		for (int i = 0; i < units.size(); i++) {
 			Unit myUnit = units.get(i);

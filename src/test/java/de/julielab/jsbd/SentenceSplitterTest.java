@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -96,7 +97,7 @@ public class SentenceSplitterTest {
 
 		Pipe myPipe = sentenceSplitter.model.getInputPipe();
 		Instance instance = sentenceSplitter.makePredictionData(lines, myPipe);
-		ArrayList<Unit> unitList = sentenceSplitter.predict(instance, true);
+		List<Unit> unitList = sentenceSplitter.predict(instance, true);
 
 		assertNotNull(unitList);
 		for (Unit unit : unitList) {

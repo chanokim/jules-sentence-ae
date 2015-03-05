@@ -18,7 +18,9 @@
 package de.julielab.jsbd;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +68,14 @@ class Abstract2UnitPipe extends Pipe {
 	public Instance pipe(Instance carrier) {
 
 		String abstractFileName = (String) carrier.getSource();
-		ArrayList<String> lines = (ArrayList<String>) carrier.getData();
+		 
+		List<String> lines = new ArrayList<String>();
+		
+		if(carrier.getData() instanceof List) {
+			lines = (List<String>) carrier.getData();
+		} else {
+			lines = Arrays.asList(new String[]{ (String) carrier.getData() });
+		}
 		HashMap<String, Integer> unitFreq = getUnitFrequency(lines);
 
 		// the features for each token
@@ -285,7 +294,7 @@ class Abstract2UnitPipe extends Pipe {
 	 *            the input file split into single lines
 	 * @return
 	 */
-	private HashMap<String, Integer> getUnitFrequency(ArrayList<String> lines) {
+	private HashMap<String, Integer> getUnitFrequency(List<String> lines) {
 		HashMap<String, Integer> freq = new HashMap<String, Integer>();
 		for (int i = 0; i < lines.size(); i++) {
 			String line = lines.get(i);

@@ -9,6 +9,21 @@
 	<name>JULES Sentence Annotator</name>
 	<description>UIMA Wrapper for JULIE Sentence Boundary Detector</description>
 
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+		   <id>julie-nexus</id>
+		   <name>JULIELab Public Repository</name>
+		   <url>https://www.coling.uni-jena.de/nexus/content/groups/public-julie-components/</url>
+		</repository>
+	</repositories>
 	<parent>
 		<groupId>de.julielab</groupId>
 		<artifactId>jules-pears</artifactId>
@@ -90,12 +105,12 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>com.e-movimento.tinylibs</groupId>
-			<artifactId>privilegedaccessor</artifactId>
-			<version>1.2</version>
+<dependency>
+	<groupId>com.e-movimento.tinytools</groupId>
+	<artifactId>privilegedaccessor</artifactId>
+	<version>1.2.1</version>
 			<scope>test</scope>
-		</dependency>
+</dependency>
 
 		<dependency>
 			<groupId>de.julielab</groupId>

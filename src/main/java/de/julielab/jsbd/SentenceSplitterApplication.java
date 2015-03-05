@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 import java.util.zip.GZIPInputStream;
@@ -450,7 +451,7 @@ public class SentenceSplitterApplication {
 		for (int i = 0; i < predictData.size(); i++) {
 			Instance inst = (Instance) predictData.get(i);
 			String abstractName = (String) inst.getSource();
-			ArrayList<Unit> units = null;
+			List<Unit> units = null;
 			try {
 				units = tpFunctions.predict(inst, doPostprocessing);
 			} catch (Exception e) {
@@ -537,7 +538,7 @@ public class SentenceSplitterApplication {
 		for (int i = 0; i < predictData.size(); i++) {
 			Instance inst = predictData.get(i);
 			String abstractName = (String) inst.getSource();
-			ArrayList<Unit> units = null;
+			List<Unit> units = null;
 			try {
 				units = tpFunctions.predict(inst, doPostprocessing);
 			} catch (Exception e) {
@@ -665,7 +666,7 @@ public class SentenceSplitterApplication {
 			inst = myPipe.instanceFrom(tmp);
 			fileLines = null;
 
-			ArrayList<Unit> units = null;
+			List<Unit> units = null;
 
 			try {
 				units = sentenceSplitter.predict(inst, doPostprocessing);

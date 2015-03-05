@@ -29,7 +29,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -49,7 +51,9 @@ import cc.mallet.types.LabelAlphabet;
 import cc.mallet.types.LabelSequence;
 import cc.mallet.types.Sequence;
 
-public class SentenceSplitter {
+public class SentenceSplitter implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = LoggerFactory
 	.getLogger(SentenceSplitter.class);
@@ -66,7 +70,7 @@ public class SentenceSplitter {
 	/**
 	 * creates a single instance from the arraylist with lines provided and the given pipe
 	 */
-	public Instance makePredictionData(ArrayList<String> lines, Pipe myPipe) {
+	public Instance makePredictionData(List<String> lines, Pipe myPipe) {
 		Instance inst = model.getInputPipe().instanceFrom(new Instance(lines, "", "", ""));
 		return inst;
 	}
@@ -158,7 +162,7 @@ public class SentenceSplitter {
 	 * @param doPostprocessing
 	 * @return ArrayList of Unit objects
 	 */
-	public ArrayList<Unit> predict(ArrayList<String> lines, boolean doPostprocessing) {
+	public List<Unit> predict(List<String> lines, boolean doPostprocessing) {
 		if (trained == false || model == null) {
 			throw new IllegalStateException("No model available. Train or load trained model first.");
 		}
@@ -173,7 +177,7 @@ public class SentenceSplitter {
 	 * @param doPostProcessing
 	 * @return ArrayList of Unit objects
 	 */
-	public ArrayList<Unit> predict(Instance inst, boolean doPostProcessing) {
+	public List<Unit> predict(Instance inst, boolean doPostProcessing) {
 
 		if (trained == false || model == null) {
 			throw new IllegalStateException("No model available. Train or load trained model first.");
@@ -350,7 +354,7 @@ public class SentenceSplitter {
 		return model;
 	}
 
-	void setModel(CRF crf) {
+	public void setModel(CRF crf) {
 		trained = true;
 		this.model = crf;
 	}
